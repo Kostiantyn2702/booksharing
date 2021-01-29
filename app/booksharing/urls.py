@@ -1,5 +1,4 @@
 """booksharing URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
 Examples:
@@ -18,9 +17,14 @@ from django.urls import path
 
 from books import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('books/list/', views.book_list),
-    path('books/create/', views.book_create),
+    path('', views.index, name='index'),
+
+    path('books/list/', views.book_list, name='books-list'),
+    path('books/create/', views.book_create, name='books-create'),
+    path('books/update/<int:pk>/', views.book_update, name='books-update'),
+    path('books/delete/<int:pk>/', views.book_delete, name='books-delete'),
 ]
