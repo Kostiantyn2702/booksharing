@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body >
+
+<a href="{% url 'author-create' %}">Author Create</a>
+
+<br>
+<br>
+
+{% for author in author_list %}
+    id: {{ author.id }} author: {{ author.first_name }} {{ author.last_name }}
+    <a href="{% url 'author-update' author.id %}">edit</a>
+    <br>
+{% endfor %}
+
+<br><a href="{% url 'index' %}">Back</a><br>
+
+</body>
+</html>
