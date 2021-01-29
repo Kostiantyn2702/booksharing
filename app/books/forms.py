@@ -13,3 +13,17 @@ class BookForm(forms.ModelForm):
             'review',
             'condition',
         )
+
+
+# class AuthorForm(forms.ModelForm):
+#     class Meta:
+#         model = Author
+#         fields = (
+#             'first_name',
+#             'last_name',
+#             'country',
+#             'gender',
+#             'native_language',
+#             'date_of_birth',
+#             'date_of_death',
+#         )

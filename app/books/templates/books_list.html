@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<a href="{% url 'books-create' %}">books create</a>
+<a href="{% url 'books-create' %}">Books Create</a><br>
 
 <br>
 
@@ -15,6 +15,8 @@
     <a href="{% url 'books-update' book.id %}">edit</a>
     <br>
 {% endfor %}
+
+<br><br><a href="{% url 'index' %}">Back</a><br>
 
 </body>
 </html>

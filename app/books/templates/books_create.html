@@ -9,18 +9,20 @@
 <h1>{{ message }}</h1>
 
 <p>
-    form to add new book
+    Form To Add New Book
 </p>
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Submit</button>
-</form>
+</form><br>
 
 {% if form.instance.id %}
     <a href="{% url 'books-delete' form.instance.id %}">DELETE</a>
 {% endif %}
+
+<br><br><a href="{% url 'books-list' %}">Back</a><br>
 
 </body>
 </html>
