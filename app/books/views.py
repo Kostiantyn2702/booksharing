@@ -63,6 +63,7 @@ def book_delete(request, pk):
     instance.delete()
     return redirect('books-list')
 
+
 # GET
 '''
 Request URL: http://127.0.0.1:8000/books/create/?name=Dima&age=29
