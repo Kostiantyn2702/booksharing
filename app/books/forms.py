@@ -1,6 +1,6 @@
 from django import forms
 
-from books.models import Book
+from books.models import Book, Author
 
 
 class BookForm(forms.ModelForm):
@@ -12,4 +12,18 @@ class BookForm(forms.ModelForm):
             'publish_year',
             'review',
             'condition',
+        )
+
+
+class AuthorForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = (
+            'first_name',
+            'last_name',
+            'country',
+            'gender',
+            'native_language',
+            'date_of_birth',
+            'date_of_death',
         )

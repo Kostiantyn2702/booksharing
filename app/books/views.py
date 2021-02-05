@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from books.models import Book
-from books.forms import BookForm
+from books.models import Book, Author
+from books.forms import BookForm, AuthorForm
 
 
 def index(request):
@@ -62,6 +62,58 @@ def book_delete(request, pk):
     instance = get_object_or_404(Book, pk=pk)
     instance.delete()
     return redirect('books-list')
+
+
+def author_list(request):
+
+    context = {
+        'author_list': Author.objects.all(),
+    }
+
+    return render(request, 'author_list.html', context=context)
+
+
+def author_create(request):
+    form_data = request.POST
+
+    if request.method == 'POST':
+        form = AuthorForm(form_data)
+        if form.is_valid():
+            form.save()
+            return redirect('author-list')
+    elif request.method == 'GET':
+        form = AuthorForm()
+
+    context = {
+        'message': 'AUTHOR CREATE',
+        'form': form,
+    }
+    return render(request, 'author_create.html', context=context)
+
+
+def author_update(request, pk):
+    instance = get_object_or_404(Author, pk=pk)
+
+    form_data = request.POST
+    if request.method == 'POST':
+        form = AuthorForm(form_data, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('author-list')
+    elif request.method == 'GET':
+        form = AuthorForm(instance=instance)
+
+    context = {
+        'message': 'AUTHOR UPDATE',
+        'form': form,
+    }
+    return render(request, 'author_create.html', context=context)
+
+
+def author_delete(request, pk):
+    instance = get_object_or_404(Author, pk=pk)
+    instance.delete()
+    return redirect('author-list')
 
 
 # GET
