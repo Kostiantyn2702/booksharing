@@ -1,8 +1,6 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from books.models import Book, Author
 from books.forms import BookForm, AuthorForm
-from django.urls import reverse
 
 
 def index(request):
