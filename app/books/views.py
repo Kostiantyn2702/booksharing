@@ -82,7 +82,7 @@ def author_create(request):
         form = AuthorForm(form_data)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('author-list'))
+            return redirect('author-list')
     elif request.method == 'GET':
         form = AuthorForm()
 
@@ -101,7 +101,7 @@ def author_update(request, pk):
         form = AuthorForm(form_data, instance=instance)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('author-list'))
+            return redirect('author-list')
     elif request.method == 'GET':
         form = AuthorForm(instance=instance)
 
@@ -115,7 +115,7 @@ def author_update(request, pk):
 def author_delete(request, pk):
     instance = get_object_or_404(Author, pk=pk)
     instance.delete()
-    return HttpResponseRedirect(reverse('author-list'))
+    return redirect('author-list')
 
 
 # GET

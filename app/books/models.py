@@ -15,5 +15,5 @@ class Author(models.Model):
     country = models.CharField(max_length=128)
     gender = models.CharField(max_length=6)
     native_language = models.CharField(max_length=128)
-    date_of_birth = models.PositiveSmallIntegerField()
-    date_of_death = models.PositiveSmallIntegerField()
+    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_death = models.DateField(null=True, blank=True)
