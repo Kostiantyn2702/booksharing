@@ -1,23 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body >
+{% extends 'base.html' %}
+
+{% block content %}
 
 <a href="{% url 'author-create' %}">Author Create</a>
-
-<br>
 <br>
 
-{% for author in author_list %}
-    id: {{ author.id }} author: {{ author.first_name }} {{ author.last_name }}
-    <a href="{% url 'author-update' author.id %}">edit</a>
-    <br>
-{% endfor %}
+<table border="1">
+        <tr>
+            <th>№</th>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Country</th>
+            <th>Gender</th>
+            <th>Native language</th>
+            <th>Date of birth</th>
+            <th>Date of death</th>
+            <th></th>
+        </tr>
 
-<br><a href="{% url 'index' %}">Back</a><br>
+        {% for author in author_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ author.id }}</td>
+                <td>{{ author.first_name }}</td>
+                <td>{{ author.last_name }}</td>
+                <td>{{ author.country }}</td>
+                <td>{{ author.gender }}</td>
+                <td>{{ author.native_language }}</td>
+                <td>{{ author.date_of_birth }}</td>
+                <td>{{ author.date_of_death }}</td>
+                <td><a href="{% url 'author-update' author.pk %}">
+                    Edit</a></td>
+            </tr>
+        {% endfor %}
+    </table>
 
-</body>
-</html>
+{% endblock content %}
