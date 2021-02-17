@@ -10,10 +10,7 @@ class SimpleMiddleware:
         start = time()
         response = self.get_response(request)
         end = time()
-        print_log = Log.objects.create(path=request.path, method=request.method, time=end-start)
 
-        print(f"Path: {print_log.path}") # noqa
-        print(f"Method: {print_log.method}") # noqa
-        print(f"Requset-response took: {print_log.time}") # noqa
+        Log.objects.create(path=request.path, method=request.method, time=end-start)
 
         return response
