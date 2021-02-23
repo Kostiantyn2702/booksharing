@@ -10,10 +10,5 @@ class MyProfileView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("index")
     fields = ("first_name", "last_name")
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     return queryset.filter(pk=self.request.user.pk)
-
-
     def get_object(self, queryset=None):
         return self.request.user

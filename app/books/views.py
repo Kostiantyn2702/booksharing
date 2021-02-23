@@ -93,28 +93,3 @@ def author_delete(request, pk):
     instance = get_object_or_404(Author, pk=pk)
     instance.delete()
     return redirect('author-list')
-
-
-# def login_view(request):
-#     form_data = request.POST
-#     form_class = LoginForm
-#
-#     if request.method == 'POST':
-#         form = form_class(form_data)
-#         if form.is_valid():
-#             user = authenticate(**form.cleaned_data)
-#             if user:
-#                 login(request, user)
-#             return redirect('books-list')
-#     elif request.method == 'GET':
-#         form = form_class()
-#
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'login.html', context=context)
-#
-#
-# def logout_view(request):
-#     logout(request)
-#     return redirect("login")
