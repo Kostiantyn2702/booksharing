@@ -14,10 +14,8 @@
     <button type="submit">Submit</button>
 </form>
 
-{% if form.instance.id %}
-    {% if  request.user.is_authenticated %}
+{% if form.instance.id and request.user.is_authenticated%}
         <a href="{% url 'books:delete' form.instance.id %}">DELETE</a>
-    {% endif%}
 {% endif%}
 
 {% endblock content%}
