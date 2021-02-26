@@ -1,5 +1,4 @@
 from django import forms
-
 from books.models import Book, Author
 
 
@@ -27,3 +26,8 @@ class AuthorForm(forms.ModelForm):
             'date_of_birth',
             'date_of_death',
         )
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField()

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<a href="{% url 'author-create' %}">Author Create</a>
+    {% if  request.user.is_authenticated %}
+        <a href="{% url 'books:author-create' %}">Author Create</a>
+    {% endif%}
 <br>
 
 <table border="1">
@@ -16,7 +17,9 @@
             <th>Native language</th>
             <th>Date of birth</th>
             <th>Date of death</th>
+            {% if  request.user.is_authenticated %}
             <th></th>
+            {% endif%}
         </tr>
 
         {% for author in author_list %}
@@ -30,8 +33,9 @@
                 <td>{{ author.native_language }}</td>
                 <td>{{ author.date_of_birth }}</td>
                 <td>{{ author.date_of_death }}</td>
-                <td><a href="{% url 'author-update' author.pk %}">
-                    Edit</a></td>
+                {% if  request.user.is_authenticated %}
+                <td><a href="{% url 'books:author-update' author.pk %}">Edit</a></td>
+                {% endif%}
             </tr>
         {% endfor %}
     </table>

@@ -1,144 +1,79 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from books.models import Book, Author
-from books.forms import BookForm, AuthorForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-def index(request):
-    return render(request, 'index.html')
+class Index(TemplateView):
+    template_name = "index.html"
 
 
-def book_list(request):
-
-    context = {
-        'books_list': Book.objects.all(),
-    }
-
-    return render(request, 'books_list.html', context=context)
+class BookList(ListView):
+    queryset = Book.objects.all()
 
 
-def book_create(request):
-    form_data = request.POST
-
-    if request.method == 'POST':
-        form = BookForm(form_data)
-        if form.is_valid():
-            form.save()
-            return redirect('books-list')
-    elif request.method == 'GET':
-        form = BookForm()
-
-    context = {
-        'message': 'BOOK CREATE',
-        'form': form,
-    }
-    return render(request, 'books_create.html', context=context)
+class BookCreate(LoginRequiredMixin, CreateView):
+    model = Book
+    success_url = reverse_lazy("books:list")
+    # form_class = BookForm
+    fields = (
+            'author',
+            'title',
+            'publish_year',
+            'review',
+            'condition',
+        )
 
 
-def book_update(request, pk):
-
-    # try:
-    #     book_obj = Book.objects.get(pk=pk)
-    # except Book.DoesNotExist:
-    #     raise Http404(f'Object with id: {pk} not found')
-    instance = get_object_or_404(Book, pk=pk)
-
-    form_data = request.POST
-    if request.method == 'POST':
-        form = BookForm(form_data, instance=instance)
-        if form.is_valid():
-            form.save()
-            return redirect('books-list')
-    elif request.method == 'GET':
-        form = BookForm(instance=instance)
-
-    context = {
-        'message': 'BOOK UPDATE',
-        'form': form,
-    }
-    return render(request, 'books_create.html', context=context)
+class BookUpdate(LoginRequiredMixin, UpdateView):
+    model = Book
+    success_url = reverse_lazy("books:list")
+    fields = (
+            'author',
+            'title',
+            'publish_year',
+            'review',
+            'condition',
+        )
 
 
-def book_delete(request, pk):
-    instance = get_object_or_404(Book, pk=pk)
-    instance.delete()
-    return redirect('books-list')
+class BookDelete(LoginRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy("books:list")
 
 
-def author_list(request):
-
-    context = {
-        'author_list': Author.objects.all(),
-    }
-
-    return render(request, 'author_list.html', context=context)
+class AuthorList(ListView):
+    queryset = Author.objects.all()
 
 
-def author_create(request):
-    form_data = request.POST
-
-    if request.method == 'POST':
-        form = AuthorForm(form_data)
-        if form.is_valid():
-            form.save()
-            return redirect('author-list')
-    elif request.method == 'GET':
-        form = AuthorForm()
-
-    context = {
-        'message': 'AUTHOR CREATE',
-        'form': form,
-    }
-    return render(request, 'author_create.html', context=context)
+class AuthorCreate(LoginRequiredMixin, CreateView):
+    model = Author
+    success_url = reverse_lazy("books:author-list")
+    fields = (
+        'first_name',
+        'last_name',
+        'country',
+        'gender',
+        'native_language',
+        'date_of_birth',
+        'date_of_death',
+    )
 
 
-def author_update(request, pk):
-    instance = get_object_or_404(Author, pk=pk)
-
-    form_data = request.POST
-    if request.method == 'POST':
-        form = AuthorForm(form_data, instance=instance)
-        if form.is_valid():
-            form.save()
-            return redirect('author-list')
-    elif request.method == 'GET':
-        form = AuthorForm(instance=instance)
-
-    context = {
-        'message': 'AUTHOR UPDATE',
-        'form': form,
-    }
-    return render(request, 'author_create.html', context=context)
+class AuthorUpdate(LoginRequiredMixin, UpdateView):
+    model = Author
+    success_url = reverse_lazy("books:author-list")
+    fields = (
+        'first_name',
+        'last_name',
+        'country',
+        'gender',
+        'native_language',
+        'date_of_birth',
+        'date_of_death',
+    )
 
 
-def author_delete(request, pk):
-    instance = get_object_or_404(Author, pk=pk)
-    instance.delete()
-    return redirect('author-list')
-
-
-# GET
-'''
-Request URL: http://127.0.0.1:8000/books/create/?name=Dima&age=29
-Request Method: GET
-Remote Address: 127.0.0.1:8000
-Referrer Policy: same-origin
-'''
-
-
-# POST
-'''
-Request URL: http://127.0.0.1:8000/books/create/
-Request Method: POST
-Remote Address: 127.0.0.1:8000
-Referrer Policy: same-origin
-name=Dima&age=29
-'''
-
-
-"""
-C - create - POST
-R - read - GET
-U - update - PUT/PATCH
-D - delete - DELETE
-HEAD, OPTIONS
-"""
+class AuthorDelete(LoginRequiredMixin, DeleteView):
+    model = Author
+    success_url = reverse_lazy("books:author-list")
