@@ -16,8 +16,8 @@ class Book(models.Model):
     publish_year = models.PositiveSmallIntegerField()
     review = models.CharField(max_length=512)
     condition = models.PositiveSmallIntegerField()
-    # category = models.ForeignKey('books.Category', on_delete=models.CASCADE,
-    #                              null=True, default=None)
+    category = models.ForeignKey('books.Category', on_delete=models.CASCADE,
+                                 null=True, default=None)
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE,
                              null=True, default=None)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL,
@@ -30,5 +30,5 @@ class Log(models.Model):
     time = models.PositiveIntegerField()
 
 
-# class Category(models.Model):
-#     name = models.CharField(max_length=128)
+class Category(models.Model):
+    name = models.CharField(max_length=128)

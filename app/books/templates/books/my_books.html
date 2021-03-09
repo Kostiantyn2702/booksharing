@@ -18,6 +18,7 @@
             {% if  request.user.is_authenticated %}
             <th></th>
             {% endif%}
+            <th>Category</th>
         </tr>
 
         {% for object in object_list %}
@@ -35,6 +36,7 @@
                 {% if  request.user.is_authenticated %}
                 <td><a href="{% url 'books:update' object.pk %}">Edit</a></td>
                 {% endif%}
+                <td>{{ object.category }}</td>
 
             </tr>
         {% endfor %}
