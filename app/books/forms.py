@@ -13,6 +13,19 @@ class BookForm(forms.ModelForm):
             'condition',
         )
 
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.user = self.user
+
+        if commit:
+            instance.save()
+
+        return instance
+
 
 class AuthorForm(forms.ModelForm):
     class Meta:
@@ -26,8 +39,3 @@ class AuthorForm(forms.ModelForm):
             'date_of_birth',
             'date_of_death',
         )
-
-
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField()

@@ -30,12 +30,11 @@ class Command(BaseCommand):
         # create authors
         authors = []
         for _ in range(data_range):
-            first_name = fake.name()
-            last_name = fake.word()
+            author_name = fake.name()
 
             authors.append(Author(
-                first_name=first_name,
-                last_name=last_name,
+                first_name=author_name.split(" ")[0],
+                last_name=author_name.split(" ")[1],
             ))
 
         Author.objects.bulk_create(authors)
@@ -45,7 +44,7 @@ class Command(BaseCommand):
 
         for _ in range(data_range):
             author = Author.objects.order_by('?').last()
-            title = fake.word()
+            title = fake.word().capitalize()
             publish_year = random.randint(0, datetime.now().year)
             review = fake.text()
             condition = random.randint(1, 5)

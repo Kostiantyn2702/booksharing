@@ -1,7 +1,15 @@
+from books.forms import BookForm
 from books.models import Book, Author
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+class FormUserKwargMixin:
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class Index(TemplateView):
@@ -9,32 +17,28 @@ class Index(TemplateView):
 
 
 class BookList(ListView):
-    queryset = Book.objects.all()
+    queryset = Book.objects.all().select_related('author')
 
 
-class BookCreate(LoginRequiredMixin, CreateView):
+class MyBooksList(LoginRequiredMixin, ListView):
+    queryset = Book.objects.all().select_related('author')
+    template_name = 'books/my_books.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(user=self.request.user)
+
+
+class BookCreate(FormUserKwargMixin, LoginRequiredMixin, CreateView):
     model = Book
     success_url = reverse_lazy("books:list")
-    # form_class = BookForm
-    fields = (
-            'author',
-            'title',
-            'publish_year',
-            'review',
-            'condition',
-        )
+    form_class = BookForm
 
 
-class BookUpdate(LoginRequiredMixin, UpdateView):
+class BookUpdate(FormUserKwargMixin, LoginRequiredMixin, UpdateView):
     model = Book
-    success_url = reverse_lazy("books:list")
-    fields = (
-            'author',
-            'title',
-            'publish_year',
-            'review',
-            'condition',
-        )
+    success_url = reverse_lazy('books:my-books')
+    form_class = BookForm
 
 
 class BookDelete(LoginRequiredMixin, DeleteView):

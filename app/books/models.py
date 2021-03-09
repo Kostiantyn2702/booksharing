@@ -1,14 +1,6 @@
 from django.db import models
 
 
-class Book(models.Model):
-    author = models.CharField(max_length=128)
-    title = models.CharField(max_length=128)
-    publish_year = models.PositiveSmallIntegerField()
-    review = models.CharField(max_length=512)
-    condition = models.PositiveSmallIntegerField()
-
-
 class Author(models.Model):
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
@@ -19,7 +11,24 @@ class Author(models.Model):
     date_of_death = models.DateField(null=True, blank=True)
 
 
+class Book(models.Model):
+    title = models.CharField(max_length=128)
+    publish_year = models.PositiveSmallIntegerField()
+    review = models.CharField(max_length=512)
+    condition = models.PositiveSmallIntegerField()
+    # category = models.ForeignKey('books.Category', on_delete=models.CASCADE,
+    #                              null=True, default=None)
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE,
+                             null=True, default=None)
+    author = models.ForeignKey(Author, on_delete=models.SET_NULL,
+                               null=True, default=None)
+
+
 class Log(models.Model):
     path = models.CharField(max_length=128)
     method = models.CharField(max_length=128)
     time = models.PositiveIntegerField()
+
+
+# class Category(models.Model):
+#     name = models.CharField(max_length=128)
