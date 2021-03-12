@@ -81,47 +81,47 @@ class DownloadCSVBookView(View):
         return response
 
 
-# class DownloadXlSXBookView(View):
-#
-#     HEADERS = (
-#         'id',
-#         'author.full_name',
-#         'title',
-#         'publish_year',
-#         'review',
-#         'condition',
-#         'category',
-#     )
-#
-#     def get(self, request):
-#         response = HttpResponse(content_type='application/ms-excel')
-#         response['Content-Disposition'] = 'attachment; filename="book_list.xlsx"'
-#
-#         wb = xlwt.Workbook(encoding='utf-8')
-#         ws = wb.add_sheet("sheet1")
-#
-#         row_num = 0
-#
-#         font_style = xlwt.XFStyle()
-#         font_style.font.bold = True
-#
-#         for col_num in range(len(self.HEADERS)):
-#             ws.write(row_num, col_num, self.HEADERS[col_num], font_style)
-#
-#         # get your data, from database or from a text file...
-#         book_list = Book.objects.all().select_related('author').iterator()
-#         for book in book_list:
-#             row_num = row_num + 1
-#             ws.write(row_num, 0, book.id)
-#             ws.write(row_num, 1, book.author.full_name)
-#             ws.write(row_num, 2, book.title)
-#             ws.write(row_num, 3, book.publish_year)
-#             ws.write(row_num, 4, book.review)
-#             ws.write(row_num, 5, book.condition)
-#             ws.write(row_num, 6, book.category)
-#
-#         wb.save(response)
-#         return response
+class DownloadXlSXBookView(View):
+
+    HEADERS = (
+        'id',
+        'author.full_name',
+        'title',
+        'publish_year',
+        'review',
+        'condition',
+        'category',
+    )
+
+    def get(self, request):
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="book_list.xlsx"'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("sheet1")
+
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        for col_num in range(len(self.HEADERS)):
+            ws.write(row_num, col_num, self.HEADERS[col_num], font_style)
+
+        # get your data, from database or from a text file...
+        book_list = Book.objects.all().select_related('author').iterator()
+        for book in book_list:
+            row_num = row_num + 1
+            ws.write(row_num, 0, book.id)
+            ws.write(row_num, 1, book.author.full_name)
+            ws.write(row_num, 2, book.title)
+            ws.write(row_num, 3, book.publish_year)
+            ws.write(row_num, 4, book.review)
+            ws.write(row_num, 5, book.condition)
+            ws.write(row_num, 6, book.category)
+
+        wb.save(response)
+        return response
 
 
 class AuthorList(ListView):
