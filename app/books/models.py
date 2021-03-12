@@ -10,6 +10,13 @@ class Author(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField(null=True, blank=True)
 
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Book(models.Model):
     title = models.CharField(max_length=128)
@@ -22,6 +29,9 @@ class Book(models.Model):
                              null=True, default=None)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL,
                                null=True, default=None)
+
+    def __str__(self):
+        return f"{self.id} {self.title} {self.author_id}"
 
 
 class Log(models.Model):

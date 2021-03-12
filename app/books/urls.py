@@ -10,6 +10,8 @@ urlpatterns = [
     path('create/', views.BookCreate.as_view(), name='create'),
     path('update/<int:pk>/', views.BookUpdate.as_view(), name='update'),
     path('delete/<int:pk>/', views.BookDelete.as_view(), name='delete'),
+    path('download/csv/', views.DownloadCSVBookView.as_view(), name='download-csv'),
+    # path('download/xlsx/', views.DownloadXlSXBookView.as_view(), name='download-xlsx'),
 
     # author
     path('author/list/', views.AuthorList.as_view(), name='author-list'),

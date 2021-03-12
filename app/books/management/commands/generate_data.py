@@ -25,7 +25,7 @@ class Command(BaseCommand):
         fake = Faker()
 
         argument = options["data"]
-        data_range = 1 if not argument else argument
+        data_range = argument or 1
 
         # create authors
         authors = []
