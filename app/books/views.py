@@ -90,12 +90,12 @@ class RequestBookConfirm(LoginRequiredMixin, View):
         return redirect('books:requested-books')
 
 
-# class RequestBookReject(LoginRequiredMixin, View):
-#     def get(self, request, request_id):
-#         request_obj = get_object_or_404(RequestBook, pk=request_id, status=10)  # TODO
-#         request_obj.status = 30
-#         request_obj.save(update_fields=('status', ))
-#         return redirect('books:requested-books')
+class RequestBookReject(LoginRequiredMixin, View):
+    def get(self, request, request_id):
+        request_obj = get_object_or_404(RequestBook, pk=request_id, status=10)  # TODO
+        request_obj.status = 30
+        request_obj.save(update_fields=('status', ))
+        return redirect('books:requested-books')
 
 
 class DownloadCSVBookView(View):

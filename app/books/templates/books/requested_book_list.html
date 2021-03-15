@@ -23,7 +23,7 @@
 <!--                    {# TODO add statuses #}-->
                     {% if object.status == 10 %}
                         <a href="{% url 'books:requested-books-confirm' object.id %}">Confirm</a> |
-<!--                        <a href="{% url 'books:requested-books-reject' object.id %}">Reject</a>-->
+                        <a href="{% url 'books:requested-books-reject' object.id %}">Reject</a>
                     {% endif %}
                 </td>
             </tr>
