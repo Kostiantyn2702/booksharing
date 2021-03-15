@@ -15,6 +15,7 @@
             <th>Review</th>
             <th>Condition</th>
             <th>Category</th>
+            <th></th>
         </tr>
 
         {% for object in object_list %}
@@ -30,6 +31,7 @@
                 <td>{{ object.review }}</td>
                 <td>{{ object.condition }}</td>
                 <td>{{ object.category }}</td>
+                <td><a href="{% url 'books:create-book-request' object.id %}">Request Book</a></td>
             </tr>
         {% endfor %}
     </table>

@@ -8,14 +8,20 @@ runserver:
 migrate:
 	$(manage_py) migrate
 
+makemigrations:
+	$(manage_py) makemigrations
+
 shell_plus:
 	$(manage_py) shell_plus --print-sql
 
-makemigrations:
-	$(manage_py) makemigrations
+createsuperuser:
+	$(manage_py) createsuperuser
 
 flake8:
 	flake8 app/
 
 celery:
 	celery -A booksharing worker -l info #TODO
+
+freeze:
+	pip freeze > requirements.txt
