@@ -1,5 +1,5 @@
 from django.contrib import admin
-from books.models import RequestBook
+from books.models import RequestBook, Author, Book
 
 
 class RequestBookAdmin(admin.ModelAdmin):
@@ -23,3 +23,36 @@ class RequestBookAdmin(admin.ModelAdmin):
 
 
 admin.site.register(RequestBook, RequestBookAdmin)
+
+
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = (
+        'full_name',
+        'country',
+    )
+    readonly_fields = ('first_name', 'last_name', 'country')
+    list_filter = ('country', )
+    search_fields = ('first_name', 'last_name', 'country')
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(Author, AuthorAdmin)
+
+
+class BookAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'category',
+        'author',
+    )
+    readonly_fields = ('title', )
+    list_filter = ('category', )
+    search_fields = ('title', 'category', 'author')
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(Book, BookAdmin)
