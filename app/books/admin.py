@@ -22,9 +22,6 @@ class RequestBookAdmin(admin.ModelAdmin):
         return False
 
 
-admin.site.register(RequestBook, RequestBookAdmin)
-
-
 class AuthorAdmin(admin.ModelAdmin):
     list_display = (
         'full_name',
@@ -36,9 +33,6 @@ class AuthorAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-
-admin.site.register(Author, AuthorAdmin)
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -55,4 +49,6 @@ class BookAdmin(admin.ModelAdmin):
         return False
 
 
+admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(RequestBook, RequestBookAdmin)
