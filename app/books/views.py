@@ -1,7 +1,7 @@
 import csv
 import xlwt
 from books.utils import display
-from books.forms import BookForm
+from books.forms import BookForm, AuthorForm
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.http import HttpResponse
@@ -75,10 +75,22 @@ class BookUpdate(FormUserKwargMixin, LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('books:my-books')
     form_class = BookForm
 
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.INFO, 'Book Was Updated')
+
+        return super().get_success_url()
+
 
 class BookDelete(LoginRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy("books:list")
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.INFO, 'Book Was Deleted')
+
+        return super().get_success_url()
 
 
 class RequestBookCreate(LoginRequiredMixin, View):
@@ -114,12 +126,11 @@ class RequestBookConfirm(_ChangeRequestBaseView):
     MESSAGE = 'Book Request Was Confirmed!'
 
 
-class RequestBookReject(LoginRequiredMixin, View):
-    def get(self, request, request_id):
-        request_obj = get_object_or_404(RequestBook, pk=request_id, status=mch.STATUS_IN_PROGRESS)
-        request_obj.status = mch.STATUS_REJECT
-        request_obj.save(update_fields=('status', ))
-        return redirect('books:requested-books')
+class RequestBookReject(_ChangeRequestBaseView):
+    CURRENT_STATUS = mch.STATUS_IN_PROGRESS
+    NEW_STATUS = mch.STATUS_REJECT
+    REDIRECT_NAME = 'books:requested-books'
+    MESSAGE = 'Book Request Was Rejected!'
 
 
 class RequestBookSentViaEmail(_ChangeRequestBaseView):
@@ -225,29 +236,25 @@ class AuthorList(ListView):
 class AuthorCreate(LoginRequiredMixin, CreateView):
     model = Author
     success_url = reverse_lazy("books:author-list")
-    fields = (
-        'first_name',
-        'last_name',
-        'country',
-        'gender',
-        'native_language',
-        'date_of_birth',
-        'date_of_death',
-    )
+    form_class = AuthorForm
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.INFO, 'Author Was Created')
+
+        return super().get_success_url()
 
 
 class AuthorUpdate(LoginRequiredMixin, UpdateView):
     model = Author
     success_url = reverse_lazy("books:author-list")
-    fields = (
-        'first_name',
-        'last_name',
-        'country',
-        'gender',
-        'native_language',
-        'date_of_birth',
-        'date_of_death',
-    )
+    form_class = AuthorForm
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.INFO, 'Author Was Updated')
+
+        return super().get_success_url()
 
 
 class AuthorDelete(LoginRequiredMixin, DeleteView):
