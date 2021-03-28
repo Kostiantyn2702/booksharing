@@ -1,5 +1,5 @@
 from django import forms
-from django.urls import reverse
+from django.contrib.auth.tokens import default_token_generator
 
 from accounts.models import User
 from accounts.tasks import send_activate_account_email
@@ -8,6 +8,7 @@ from accounts.tasks import send_activate_account_email
 class SighUpForm(forms.ModelForm):
     password1 = forms.CharField(min_length=6)
     password2 = forms.CharField(min_length=6)
+    email = forms.EmailField(max_length=254)
 
     class Meta:
         model = User
@@ -38,6 +39,7 @@ class SighUpForm(forms.ModelForm):
         if commit:
             instance.save()
 
-        send_activate_account_email.delay(instance.username)
+        token = default_token_generator.make_token(instance)
+        send_activate_account_email.delay(instance.username, token)
 
         return instance
