@@ -2,10 +2,12 @@
 
 {% block content %}
 
-<a href="{% url 'books:download-csv' %}">Download CSV</a>
-<a href="{% url 'books:download-xlsx' %}">Download XLSX</a>
+<div class="row">
+        <div class="col">
+            <a class="btn btn-success" href="{% url 'books:download-csv' %}">Download CSV</a>
+            <a class="btn btn-success" href="{% url 'books:download-xlsx' %}">Download XLSX</a>
 
-<table border="1">
+<table class="table table-striped font-size-12">
         <tr>
             <th>№</th>
             <th>ID</th>
@@ -20,7 +22,7 @@
 
         {% for object in object_list %}
             <tr>
-                <td>{{ forloop.counter }}</td>
+                <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ object.id }}</td>
                 <td>
                     {{ object.author.first_name }}
@@ -31,9 +33,11 @@
                 <td>{{ object.review }}</td>
                 <td>{{ object.condition }}</td>
                 <td>{{ object.category }}</td>
-                <td><a href="{% url 'books:create-book-request' object.id %}">Request Book</a></td>
+                <td><a class="btn btn-primary" href="{% url 'books:create-book-request' object.id %}">Request Book</a></td>
             </tr>
         {% endfor %}
     </table>
+        </div>
+    </div>
 
 {% endblock content %}

@@ -4,7 +4,12 @@
 
 <h1>My Profile</h1>
 
-<form method="post">
+<img class="rounded-circle"
+             width="150" height="150"
+             src="{{ request.user.avatar.url }}"
+             data-holder-rendered="true">
+<br><br>
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Submit</button>

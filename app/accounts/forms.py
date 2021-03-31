@@ -6,8 +6,8 @@ from accounts.tasks import send_activate_account_email
 
 
 class SighUpForm(forms.ModelForm):
-    password1 = forms.CharField(min_length=6)
-    password2 = forms.CharField(min_length=6)
+    password1 = forms.CharField(min_length=6, widget=forms.PasswordInput())
+    password2 = forms.CharField(min_length=6, widget=forms.PasswordInput())
     email = forms.EmailField(max_length=254)
 
     class Meta:
