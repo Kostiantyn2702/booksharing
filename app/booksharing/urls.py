@@ -1,7 +1,7 @@
 import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
-from accounts.views import MyProfileView, ContactUsView
+from accounts.views import MyProfileView, ContactUsView, SignUpView, ActivateView
 from books import views
 
 
@@ -17,4 +17,6 @@ urlpatterns = [
 
     path('accounts/my-profile/', MyProfileView.as_view(), name='my-profile'),
     path('accounts/contact-us/', ContactUsView.as_view(), name='contact-us'),
+    path('accounts/signup/', SignUpView.as_view(), name='signup'),
+    path('accounts/activate/<uuid:username>/<token>/', ActivateView.as_view(), name='activate'),
 ]
