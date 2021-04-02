@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content%}
+    <div class="row">
+                <div class="col-4">
+                    <p class="h3">{{ object.title }}</p>
+                    {% if  book.coverage.url == '/media/True' %}
+                    <img width="150" height="200"
+                         src="/media/coverage/default/image.jpg"
+                         data-holder-rendered="true">
+                    {% else %}
+                    <img width="150" height="200"
+                         src="{{ book.coverage.url }}"
+                         data-holder-rendered="true">
+                    {% endif%}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </form>
+
+                    <br><br>
+                    <p class="h5">By {{ object.author.first_name }} {{ object.author.last_name }}</p>
+                    <p class="h6">{{ object.category }}</p>
+                    <p class="h6">{{ object.review }}</p>
+                    <p class="h6">Publish in {{ object.publish_year }}, condition {{ object.condition }}</p>
+
+                </div>
+    </div>
+{% endblock content%}

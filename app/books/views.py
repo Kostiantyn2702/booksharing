@@ -9,7 +9,7 @@ from books import model_choices as mch
 from books.models import Book, Author, RequestBook
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DeleteView, \
-    ListView, TemplateView, View
+    ListView, TemplateView, View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -29,7 +29,11 @@ class BookList(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.exclude(user=self.request.user)
+        if self.request.user.__class__ == "class 'accounts.models.User'":
+
+            return queryset.exclude(user=self.request.user)
+        else:
+            return queryset
 
 
 class MyBooksList(LoginRequiredMixin, ListView):
@@ -68,6 +72,10 @@ class BookCreate(FormUserKwargMixin, LoginRequiredMixin, CreateView):
             self.request, messages.INFO, 'Book Was Created')
 
         return super().get_success_url()
+
+
+class BookView(DetailView):
+    queryset = Book.objects.all()
 
 
 class BookUpdate(FormUserKwargMixin, LoginRequiredMixin, UpdateView):

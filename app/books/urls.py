@@ -27,6 +27,8 @@ urlpatterns = [
     path('download/csv/', views.DownloadCSVBookView.as_view(), name='download-csv'),
     path('download/xlsx/', views.DownloadXlSXBookView.as_view(), name='download-xlsx'),
     path('create/book/request/<int:book_id>/', views.RequestBookCreate.as_view(), name='create-book-request'),
+    path('details/<int:pk>/', views.BookView.as_view(), name='details'),
+
 
     # author
     path('author/list/', views.AuthorList.as_view(), name='author-list'),
