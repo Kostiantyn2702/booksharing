@@ -3,7 +3,10 @@ from books import model_choices as mch
 
 
 def book_upload_coverage(instance, filename):
-    book_id = Book.objects.last().id + 1
+    if len(Book.objects.all()) == 0:
+        book_id = 1
+    else:
+        book_id = Book.objects.last().id + 1
     path = f'coverage/{book_id}/{filename}'
     return path
 
