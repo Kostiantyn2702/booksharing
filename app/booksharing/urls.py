@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.urls import path, include
 from accounts.views import MyProfileView, ContactUsView, SignUpView, ActivateView
 from books import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -20,3 +22,5 @@ urlpatterns = [
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('accounts/activate/<uuid:username>/<token>/', ActivateView.as_view(), name='activate'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

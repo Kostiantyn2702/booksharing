@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from celery.schedules import crontab
 from django.urls import reverse_lazy
@@ -13,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '3+cjh*h^-%in2sxg*i%48(y1&bzhc9ox4d31$b@of&&l5da1@u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('ENV') == 'dev'
 
 ALLOWED_HOSTS = ["*"]
 
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
     'accounts',
     'django_extensions',
     'debug_toolbar',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -116,6 +118,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+STATIC_ROOT = BASE_DIR / '..' / 'static_content' / 'static'
+MEDIA_ROOT = BASE_DIR / '..' / 'media'
+MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -137,3 +145,5 @@ LOGIN_REDIRECT_URL = reverse_lazy("index")
 LOGOUT_REDIRECT_URL = reverse_lazy("index")
 
 AUTH_USER_MODEL = "accounts.User"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

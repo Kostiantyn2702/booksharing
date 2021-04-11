@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content%}
+    <div class="row">
+                <div class="col-4">
+                    <h1>{{ message }}</h1>
+                    <p class="h4">Form to add new book</p>
 
-<h1>{{ message }}</h1>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
 
-<p>
-    Form to add new book
-</p>
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-
-{% if form.instance.id and request.user.is_authenticated%}
-        <a href="{% url 'books:delete' form.instance.id %}">DELETE</a>
-{% endif%}
-
+                    {% if form.instance.id and request.user.is_authenticated%}
+                        <a class="btn btn-primary" href="{% url 'books:delete' form.instance.id %}">DELETE</a>
+                    {% endif%}
+                </div>
+    </div>
 {% endblock content%}

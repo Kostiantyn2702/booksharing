@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-    Main Page
-    <br>
+<div class="row">
+        <div class="col">
+            <figure class="text-center">
+                <p class="lead">Main Page</p>
+                <br>
+                <img width="500" height="500" src="{% static 'img/index.png' %}">
+            </figure>
+        </div>
+    </div>
 
 {% endblock content %}

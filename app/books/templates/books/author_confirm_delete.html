@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content%}
+<div class="row">
+            <div class="col-12">
+                <p class="h4">Do you really want delete author with id: {{ object.pk }}</p>
 
-<h1>Do you really want delete author with id: {{ object.pk }}</h1>
-
-<form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete author "{{ object.first_name }} {{ object.last_name }}"?</p>
-    <input type="submit" value="Confirm">
-</form>
-
+                <form method="post">{% csrf_token %}
+                    <p class="h6">Are you sure you want to delete author "{{ object.first_name }} {{ object.last_name }}"?</p>
+                    <input type="submit" class="btn btn-success" value="Confirm">
+                </form>
+          </div>
+</div>
 {% endblock content%}
