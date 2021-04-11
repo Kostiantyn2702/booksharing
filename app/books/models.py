@@ -1,9 +1,10 @@
 from django.db import models
 from books import model_choices as mch
+from django.templatetags.static import static
 
 
 def book_upload_coverage(instance, filename):
-    if len(Book.objects.all()) == 0:
+    if Book.objects.all().count() == 0:
         book_id = 1
     else:
         book_id = Book.objects.last().id + 1
@@ -42,10 +43,17 @@ class Book(models.Model):
                              null=True, default=None)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL,
                                null=True, default=None)
-    coverage = models.FileField(null=True, default="/coverage/default/image.jpg", upload_to=book_upload_coverage)
+    coverage = models.FileField(null=True, default=None, upload_to=book_upload_coverage)
 
     def __str__(self):
         return f"{self.id} {self.title} {self.author_id}"
+
+    @property
+    def coverage_url(self):
+        if self.coverage:
+            return self.coverage.url
+        else:
+            return static('media/coverage/default/image.jpg')
 
 
 class RequestBook(models.Model):

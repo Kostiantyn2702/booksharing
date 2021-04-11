@@ -16,7 +16,7 @@ class User(AbstractUser):
         'email address', blank=False, null=False, unique=True,
     )
 
-    avatar = models.FileField(null=True, default=True, upload_to=user_upload_avatar)
+    avatar = models.FileField(null=True, default=None, upload_to=user_upload_avatar)
 
     def save(self, *args, **kwargs):
         if not self.username:

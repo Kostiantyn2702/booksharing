@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block content%}
@@ -8,11 +8,11 @@
                     <p class="h3">{{ object.title }}</p>
                     {% if  book.coverage.url == '/media/True' %}
                     <img width="150" height="200"
-                         src="/media/coverage/default/image.jpg"
+                         src="{% static 'img/index.png' %}"
                          data-holder-rendered="true">
                     {% else %}
                     <img width="150" height="200"
-                         src="{{ book.coverage.url }}"
+                         src="{{ book.coverage_url }}"
                          data-holder-rendered="true">
                     {% endif%}
 
