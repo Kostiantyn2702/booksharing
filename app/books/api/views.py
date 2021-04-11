@@ -1,8 +1,8 @@
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from books.api.filters import BookFilter
-from books.api.serializers import BookSerializer
-from books.models import Book
+from books.api.filters import BookFilter, AuthorFilter, CategoryFilter
+from books.api.serializers import BookSerializer, AuthorSerializer, CategorySerializer
+from books.models import Book, Author, Category
 
 
 # class BookList(generics.ListCreateAPIView):
@@ -25,3 +25,19 @@ class BookModelViewSet(viewsets.ModelViewSet):
     #     'title': ['icontains', 'exact'], # filter(title='awda'), filter(title__exact='awda')
     #     'condition': ['gt', 'gte', 'lt', 'lte'],
     # }
+
+
+class AuthorModelViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ['full_name', 'country']
+    filterset_class = AuthorFilter
+
+
+class CategoryModelViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ['name']
+    filterset_class = CategoryFilter
