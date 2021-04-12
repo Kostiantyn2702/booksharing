@@ -8,14 +8,19 @@ from django.conf.urls.static import static
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
+
+API_V1_PREFIX = 'api/v1/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('accounts/', include('django.contrib.auth.urls')),
     path('books/', include('books.urls')),
-    path('api/v1/', include('books.api.urls')),
 
     path('', views.Index.as_view(), name='index'),
 
@@ -25,6 +30,11 @@ urlpatterns = [
     path('accounts/contact-us/', ContactUsView.as_view(), name='contact-us'),
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('accounts/activate/<uuid:username>/<token>/', ActivateView.as_view(), name='activate'),
+
+    #API
+    path(API_V1_PREFIX, include('books.api.urls')),
+    path(f'{API_V1_PREFIX}token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path(f'{API_V1_PREFIX}token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
