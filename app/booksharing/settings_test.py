@@ -1,4 +1,4 @@
-from booksharing.settings import *
+from booksharing.settings import * # noqa
 
 DEBUG = False
 CELERY_BROKER_URL = 'memory://localhost/'

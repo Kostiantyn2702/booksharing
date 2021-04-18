@@ -29,8 +29,7 @@ class BookList(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.__class__ == "class 'accounts.models.User'":
-
+        if str(self.request.user.__class__) == "<class 'accounts.models.User'>":
             return queryset.exclude(user=self.request.user)
         else:
             return queryset

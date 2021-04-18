@@ -9,7 +9,7 @@ def test_login_success(client):
     # create user
     password = 'helloWorld123'
     email = 'test_login_success@mail.com'
-    avatar = f'avatars/47/IMG_20210320_000433.jpg'
+    avatar = 'avatars/47/IMG_20210320_000433.jpg'
     user = User(email=email, username=email, avatar=avatar)
     user.set_password(password)
     user.save()

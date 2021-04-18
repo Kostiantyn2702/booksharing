@@ -31,7 +31,7 @@ urlpatterns = [
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('accounts/activate/<uuid:username>/<token>/', ActivateView.as_view(), name='activate'),
 
-    #API
+    # API
     path(API_V1_PREFIX, include('books.api.urls')),
     path(f'{API_V1_PREFIX}token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path(f'{API_V1_PREFIX}token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
