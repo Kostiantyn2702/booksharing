@@ -32,6 +32,11 @@ gunicorn:
 uwsgi:
 	 uwsgi --http :8000 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --module booksharing.wsgi --master --processes 4 --threads 2
 
+collectstatic:
+	python app/manage.py collectstatic --noinput
 
+tests:
+	pytest app/
 
-
+tests_coverage:
+	pytest app/ --cov=app --cov-report html

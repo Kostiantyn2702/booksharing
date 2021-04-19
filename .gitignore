@@ -5,3 +5,4 @@ app/db.sqlite3
 static/
 media/
 static_content/
+.coverage

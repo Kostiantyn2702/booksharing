@@ -25,8 +25,11 @@ class SighUpForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data['password1'] != cleaned_data['password2']:
-            self.add_error('password2', 'Passwords should match!')
+        try:
+            if cleaned_data['password1'] != cleaned_data['password2']:
+                self.add_error('password2', 'Passwords should match!')
+        except KeyError:
+            pass
             # raise forms.ValidationError('Passwords should match!')
 
         return cleaned_data
