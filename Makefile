@@ -40,3 +40,15 @@ tests:
 
 tests_coverage:
 	pytest app/ --cov=app --cov-report html
+
+build: # Start docker file
+	docker-compose up -d
+
+build_down:
+	docker-compose down
+
+check_docker_image_memory: # Проверить сколько места заняли образы
+	docker system df
+
+clear_docker_memory: # Очистить память от образов
+	docker system prune -a
