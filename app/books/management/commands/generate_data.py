@@ -3,7 +3,7 @@ from faker import Faker
 import random
 from datetime import datetime
 
-from books.models import Book, Author
+from books.models import Book, Author, Category
 
 
 class Command(BaseCommand):
@@ -26,6 +26,10 @@ class Command(BaseCommand):
 
         argument = options["data"]
         data_range = argument or 1
+
+        # generate Categories
+        for _ in range(20):
+            Category.objects.create(name=fake.word())
 
         # create authors
         authors = []

@@ -1,6 +1,7 @@
 from django.db import models
 from books import model_choices as mch
 from django.templatetags.static import static
+from django.core.cache import cache
 
 
 def book_upload_coverage(instance, filename):
@@ -70,4 +71,27 @@ class Log(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=64)
+
+    CACHE_OBJECTS_LIST = 'CategoryList'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self._refresh_cache_objects_list()
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        self._refresh_cache_objects_list()
+
+    @classmethod
+    def _refresh_cache_objects_list(cls):
+        from books.api.serializers import CategorySerializer  # noqa
+
+        cache.delete(cls.CACHE_OBJECTS_LIST)
+        queryset = cls.objects.all()
+        serializer = CategorySerializer(queryset, many=True)
+        response_data = serializer.data
+        cache.set(Category.CACHE_OBJECTS_LIST, response_data, 60 * 60 * 24 * 7)
+
+    def __str__(self):
+        return self.name

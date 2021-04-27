@@ -30,7 +30,7 @@ gunicorn:
 	gunicorn booksharing.wsgi --workers=4 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --max-requests=10000
 
 uwsgi:
-	 uwsgi --http :8000 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --module booksharing.wsgi --master --processes 4 --threads 2
+	 uwsgi --http :8001 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --module booksharing.wsgi --master --processes 4 --threads 2
 
 collectstatic:
 	python app/manage.py collectstatic --noinput
