@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-manage_py := python app/manage.py
+manage_py := docker exec -it backend python3 app/manage.py
 
 runserver:
 	$(manage_py) runserver
@@ -33,7 +33,9 @@ uwsgi:
 	 uwsgi --http :8001 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --module booksharing.wsgi --master --processes 4 --threads 2
 
 collectstatic:
-	python app/manage.py collectstatic --noinput
+	$(manage_py) collectstatic --noinput && \
+	docker cp backend:/tmp/static /tmp/static && \
+	docker cp /tmp/static web:/etc/nginx/static
 
 tests:
 	pytest app/
@@ -41,8 +43,10 @@ tests:
 tests_coverage:
 	pytest app/ --cov=app --cov-report html
 
-build: # Start docker file
-	docker-compose up -d
+build-dev:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+build: build-dev collectstatic
 
 build_down:
 	docker-compose down
@@ -52,3 +56,6 @@ check_docker_image_memory: # Проверить сколько места зан
 
 clear_docker_memory: # Очистить память от образов
 	docker system prune -a
+
+docker_backend:
+	docker exect -it backend bash

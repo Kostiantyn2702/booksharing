@@ -2,11 +2,11 @@ import os
 from pathlib import Path
 from celery.schedules import crontab
 from django.urls import reverse_lazy
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".." / ".env.example")  # take environment variables from .env.example
+# load_dotenv(BASE_DIR / ".." / ".env.example")  # take environment variables from .env.example
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -131,7 +131,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATIC_ROOT = BASE_DIR / '..' / 'static_content' / 'static'
+STATIC_ROOT = '/tmp/static'
 MEDIA_ROOT = BASE_DIR / '..' / 'media'
 MEDIA_URL = '/media/'
 
@@ -152,9 +152,6 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
 
 LOGIN_REDIRECT_URL = reverse_lazy("index")
 LOGOUT_REDIRECT_URL = reverse_lazy("index")
@@ -197,3 +194,18 @@ def show_toolbar(request):
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 }
+
+if DEBUG:
+    import socket
+
+    ALLOWED_HOSTS = ['*']
+
+    # debug tool_bar
+    DEBUG_TOOLBAR_PATCH_SETTINGS = True
+    INTERNAL_IPS = ['127.0.0.1']
+
+    # tricks to have debug toolbar when developing with docker
+    ip = socket.gethostbyname(socket.gethostname())
+    ip = '.'.join(ip.split('.')[:-1])
+    ip = f'{ip}.1'
+    INTERNAL_IPS.append(ip)

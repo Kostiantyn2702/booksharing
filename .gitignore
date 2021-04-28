@@ -6,5 +6,6 @@ static/
 media/
 static_content/
 .coverage
-.env.example
 app/celerybeat-schedule
+.env
+mailler
