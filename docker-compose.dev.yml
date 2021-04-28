@@ -26,5 +26,5 @@ services:
   worker:
     build: .
 
-#  celerybeat:
-#    build: .
+  celerybeat:
+    build: .

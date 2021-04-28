@@ -49,23 +49,23 @@ services:
     environment:
       - MODE=worker
 
-#  celerybeat:
-#    image: local:0.0.1
-#    restart: always
-#    container_name: "celerybeat"
-#    env_file:
-#      - .env
-#    environment:
-#      - MODE=celerybeat
+  celerybeat:
+    image: local:0.0.1
+    restart: always
+    container_name: "celerybeat"
+    env_file:
+      - .env
+    environment:
+      - MODE=celerybeat
 
-#  pgadmin4:
-#    image: dpage/pgadmin4
-#    restart: always
-#    container_name: "pgadmin4"
-#    ports:
-#      -"5050:5050"
-#    env_file:
-#      - .env
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: "pgadmin4"
+    ports:
+      - "5050:5050"
+    env_file:
+      - .env
 
 volumes:
   db_data: {}

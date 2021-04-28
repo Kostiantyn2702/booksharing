@@ -3,11 +3,11 @@
 python3 ./app/manage.py runserver 0:8000
 
 if [[ "${MODE}" == "runserver" ]]; then
-#  if [[ "${ENV}" == "dev" ]]; then
-  python3 ./app/manage.py runserver 0:8000
-#  elif [[ "${ENV}" == "prod" ]]; then
-#    python3 gunicorn booksharing.wsgi --workers=4 --max-requests=10000
-#  fi
+  if [[ "${ENV}" == "dev" ]]; then
+    python3 ./app/manage.py runserver 0:8000
+  elif [[ "${ENV}" == "prod" ]]; then
+    python3 gunicorn booksharing.wsgi --workers=4 --max-requests=10000
+  fi
 elif [[ "${MODE}" == "worker" ]]; then
   CELERY_PID_FILE="/tmp/celery.pid"
   rm "${CELERY_PID_FILE}"
