@@ -27,7 +27,7 @@ freeze:
 	pip freeze > requirements.txt
 
 gunicorn:
-	gunicorn booksharing.wsgi --workers=4 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --max-requests=10000
+	gunicorn booksharing.wsgi -b:8081 --workers=4 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --max-requests=10000
 
 uwsgi:
 	 uwsgi --http :8001 --chdir=/home/kostiantyn/PycharmProjects/booksharing/app --module booksharing.wsgi --master --processes 4 --threads 2

@@ -20,11 +20,18 @@ services:
       - "./:/app"
     ports:
       - "8000:8000"
-    environment:
-      - ENV=dev
+
+  web:
+    ports:
+      - "81:81"
+      - "443:443"
 
   worker:
     build: .
 
   celerybeat:
     build: .
+
+  pgadmin4:
+    ports:
+      - "5050:5050"
