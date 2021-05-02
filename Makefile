@@ -54,8 +54,11 @@ build_down:
 check_docker_image_memory: # Проверить сколько места заняли образы
 	docker system df
 
-clear_docker_memory: # Очистить память от образов
+clear_docker_image_memory: # Очистить память от образов
 	docker system prune -a
+
+clear_docker_volumes_memory:
+	docker volume rm $(docker volume ls -q)
 
 docker_backend:
 	docker exect -it backend bash
