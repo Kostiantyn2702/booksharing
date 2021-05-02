@@ -2,10 +2,11 @@ import os
 from pathlib import Path
 from celery.schedules import crontab
 from django.urls import reverse_lazy
+# from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# load_dotenv(BASE_DIR / ".." / ".env.example")  # take environment variables from .env.example
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -81,7 +82,11 @@ WSGI_APPLICATION = 'booksharing.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.environ.get('POSTGRES_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -126,13 +131,18 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATIC_ROOT = BASE_DIR / '..' / 'static_content' / 'static'
+STATIC_ROOT = '/tmp/static'
 MEDIA_ROOT = BASE_DIR / '..' / 'media'
 MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://{0}:{1}@{2}:{3}//'.format(
+    os.environ['RABBITMQ_DEFAULT_USER'],
+    os.environ['RABBITMQ_DEFAULT_PASS'],
+    os.environ.get('RABBITMQ_DEFAULT_HOST', '127.0.0.1'),
+    os.environ.get('RABBITMQ_DEFAULT_PORT', '5672'),
+)
 
 
 CELERY_BEAT_SCHEDULE = {
@@ -142,9 +152,6 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
 
 LOGIN_REDIRECT_URL = reverse_lazy("index")
 LOGOUT_REDIRECT_URL = reverse_lazy("index")
@@ -171,7 +178,10 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
+        'LOCATION': '{}:{}'.format(
+            os.environ.get('CACHE_HOST', '127.0.0.1'),
+            os.environ.get('CACHE_PORT', '11211'),
+        ),
         # 'LOCATION': 'my-domain.com:11211',
     }
 }
@@ -184,3 +194,18 @@ def show_toolbar(request):
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 }
+
+if DEBUG:
+    import socket
+
+    ALLOWED_HOSTS = ['*']
+
+    # debug tool_bar
+    DEBUG_TOOLBAR_PATCH_SETTINGS = True
+    INTERNAL_IPS = ['127.0.0.1']
+
+    # tricks to have debug toolbar when developing with docker
+    ip = socket.gethostbyname(socket.gethostname())
+    ip = '.'.join(ip.split('.')[:-1])
+    ip = f'{ip}.1'
+    INTERNAL_IPS.append(ip)

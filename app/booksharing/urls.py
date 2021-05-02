@@ -24,8 +24,6 @@ urlpatterns = [
 
     path('', views.Index.as_view(), name='index'),
 
-    path('__debug__/', include(debug_toolbar.urls)),
-
     path('accounts/my-profile/', MyProfileView.as_view(), name='my-profile'),
     path('accounts/contact-us/', ContactUsView.as_view(), name='contact-us'),
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
@@ -36,8 +34,6 @@ urlpatterns = [
     path(f'{API_V1_PREFIX}token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path(f'{API_V1_PREFIX}token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -57,3 +53,11 @@ urlpatterns += [
    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar # noqa
+
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns.append(
+        path('__debug__/', include(debug_toolbar.urls)),
+    )
