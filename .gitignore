@@ -9,3 +9,4 @@ static_content/
 app/celerybeat-schedule
 .env
 mailler
+parser.db
